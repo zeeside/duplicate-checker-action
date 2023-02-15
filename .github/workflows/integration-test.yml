@@ -1,0 +1,30 @@
+name: Integration Test
+on: [push]
+jobs:
+  build:
+    name: Integration Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: Terraform Duplicate State Key Checker
+        id: tfTest
+        uses: ./
+        with:
+          content_regex: '(?m)^.+backend\s+\"s3\"\s+{[^}]+key\s*=\s*\"([^\"]+)\"'
+          directory_scope: "/github/workspace/test-assets"
+          check_file_extension: "tf"
+      - name: Check Terraform Duplicates
+        run: |
+          echo "${{ steps.tfTest.outputs.result }}"
+      - name: Config Duplicate GroupId Checker
+        id: confTest
+        uses: ./
+        with:
+          content_regex: '(?m)^kafka\.source\s*=\s*{\s*(.*\n)*\s*group_id\s*=\s*\"([^\"]*)\"'
+          directory_scope: "/github/workspace/test-assets"
+          ignore_files: "dev.conf"
+          check_file_extension: "confTest"
+          ignore_paths_containing: "build/resources"
+      - name: Check Terraform Duplicates
+        run: |
+          echo "${{ steps.tfTest.outputs.result }}"
