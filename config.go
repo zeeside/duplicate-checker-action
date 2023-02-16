@@ -30,6 +30,7 @@ type Config struct {
 	LogLevel            string
 	IgnoreFiles         map[string]struct{}
 	IgnorePaths         map[string]struct{}
+	ErrorMessage        string
 }
 
 func NewConfig() (*Config, error) {
@@ -63,6 +64,7 @@ func NewConfig() (*Config, error) {
 		FileExtension:      toValidExtensionFormat(fileExtension),
 		ContentRegex:       contentRegex,
 		LogLevel:           getEnvStr("INPUT_LOG_LEVEL", "info"),
+		ErrorMessage:       getEnvStr("INPUT_ERROR_MESSAGE", "🔴 CAUTION!! Potentially harmful duplicates found in files:"),
 		IgnoreFiles:        ignoreFilesMap,
 		IgnorePaths:        ignorePathsMap,
 		ExcludedExtensions: ignoreExtMap,

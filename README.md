@@ -52,6 +52,9 @@ Checks all files in a given scope for duplicate text that can be harmul when dep
     # certain paths. Useful if you have generated paths that have copies of files you
     # do not want to check for duplicates.
     ignore_paths_containing: ""
+
+    # The message to output if duplicates are found
+    error_message: ""
 ```
 
 <!-- end usage -->
@@ -68,6 +71,7 @@ Checks all files in a given scope for duplicate text that can be harmul when dep
 | **`excluded_extensions`**     | A comma delimited list of extensions to skip (extensions can include the dot prefix or not). This configuration allows skipping over files with certain extensions                               |             | **false**    |
 | **`ignore_files`**            | A comma delimited list of filenames to skip. This configuration allows skipping certain file names. Useful if you use the same settings in multiple environment configuration files.             |             | **false**    |
 | **`ignore_paths_containing`** | A comma delimited list of paths to skip. This configuration allows skipping certain paths. Useful if you have generated paths that have copies of files you do not want to check for duplicates. |             | **true**     |
+| **`error_message`**           | The message to output if duplicates are found                                                                                                                                                    |             | **true**     |
 
 <!-- end inputs -->
 <!-- start outputs -->

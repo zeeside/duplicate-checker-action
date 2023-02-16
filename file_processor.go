@@ -182,7 +182,7 @@ func (f *FileProcessor) PrintOutput() {
 		f.Duration))
 
 	if len(f.DuplicateKeys) > 0 {
-		title.WriteString("🔴 CAUTION!! Potentially harmful duplicates found in files:\n\n")
+		title.WriteString(f.Config.ErrorMessage)
 		f.action.SetEnv("has_duplicates", "true")
 		for key := range f.DuplicateKeys {
 			duplicateList := f.AllMatches[key]
