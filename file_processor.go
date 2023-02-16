@@ -203,7 +203,8 @@ func (f *FileProcessor) PrintOutput() {
 	}
 
 	f.action.AddStepSummary(sb.String())
-	f.action.SetOutput("result", sb.String())
+	// f.action.SetOutput("result", sb.String())
+	fmt.Printf(`::set-output name=result::%s\n`, sb.String())
 	f.action.SetEnv("result", sb.String())
 	jsonString, _ := json.Marshal(sb.String())
 	f.action.SetEnv("result_escaped", string(jsonString))
