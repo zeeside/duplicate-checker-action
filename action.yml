@@ -36,6 +36,8 @@ inputs:
 outputs:
   result:
     description: "The output after evaluating all checks"
+  result_escaped:
+    description: "The output after evaluating all checks in escaped json format"
 runs:
   using: "docker"
   image: "Dockerfile"
