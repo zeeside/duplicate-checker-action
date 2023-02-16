@@ -34,6 +34,8 @@ inputs:
     description: "A comma delimited list of paths to skip. This configuration allows skipping certain paths. Useful if you have generated paths that have copies of files you do not want to check for duplicates."
     required: true
 outputs:
+  has_duplicates:
+    description: "True or false depending on if the check found duplicates"
   result:
     description: "The output after evaluating all checks"
   result_escaped:

@@ -210,8 +210,10 @@ func (f *FileProcessor) PrintOutput() {
 	f.action.SetEnv("result_escaped", string(jsonString))
 	f.action.SetOutput("result_escaped", string(jsonString))
 
-	if len(sb.String()) > 0 {
-		f.action.Errorf(sb.String())
+	if len(f.DuplicateKeys) > 0 {
+		f.action.SetOutput("has_duplicates", "true")
+	} else {
+		f.action.SetOutput("has_duplicates", "false")
 	}
 }
 
