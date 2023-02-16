@@ -171,8 +171,9 @@ func (f *FileProcessor) checkFile(directory string, baseFile os.FileInfo, wg *sy
 // from the files
 func (f *FileProcessor) PrintOutput() {
 
-	var sb strings.Builder
-	sb.WriteString(fmt.Sprintf("Total files Scanned: %d\nDirectory Scanned: %s\nExtension Checked: %s\nDuplicated strings: %d\nFiles with Duplicates: %d\nDuration: %s\n\n",
+	var result strings.Builder
+	var title strings.Builder
+	result.WriteString(fmt.Sprintf("Total files Scanned: %d\nDirectory Scanned: %s\nExtension Checked: %s\nDuplicated strings: %d\nFiles with Duplicates: %d\nDuration: %s\n\n",
 		f.FilesChecked,
 		f.Config.DirectoryContext,
 		f.Config.FileExtension,
@@ -181,12 +182,13 @@ func (f *FileProcessor) PrintOutput() {
 		f.Duration))
 
 	if len(f.DuplicateKeys) > 0 {
-		sb.WriteString("Caution!! Potentially harmful duplicates found in files:\n\n")
+		title.WriteString("🔴 CAUTION!! Potentially harmful duplicates found in files:\n\n")
+		f.action.SetEnv("has_duplicates", "true")
 		for key := range f.DuplicateKeys {
 			duplicateList := f.AllMatches[key]
 
 			for _, i := range duplicateList {
-				sb.WriteString(fmt.Sprintf("Matching String: %s\nMatch Path: %s\nMatch Location: %d\nMatching Block: %s\n...\n\n",
+				result.WriteString(fmt.Sprintf("Matching String: %s\nMatch Path: %s\nMatch Location: %d\nMatching Block: %s\n...\n\n",
 					key,
 					i.FileName,
 					i.LineNumber,
@@ -196,25 +198,18 @@ func (f *FileProcessor) PrintOutput() {
 	}
 
 	if len(f.LargeFiles) > 0 {
-		sb.WriteString("Duplicate checker skipped the following large files:\n")
+		result.WriteString("Duplicate checker skipped the following large files:\n")
 		for _, lf := range f.LargeFiles {
-			sb.WriteString(fmt.Sprintf("%s\n", lf))
+			result.WriteString(fmt.Sprintf("%s\n", lf))
 		}
 	}
 
-	f.action.AddStepSummary(sb.String())
-	// f.action.SetOutput("result", sb.String())
-	fmt.Printf(`::set-output name=result::%s\n`, sb.String())
-	f.action.SetEnv("result", sb.String())
-	jsonString, _ := json.Marshal(sb.String())
-	f.action.SetEnv("result_escaped", string(jsonString))
-	f.action.SetOutput("result_escaped", string(jsonString))
+	jsonString, _ := json.Marshal(result.String())
 
-	if len(f.DuplicateKeys) > 0 {
-		f.action.SetOutput("has_duplicates", "true")
-	} else {
-		f.action.SetOutput("has_duplicates", "false")
-	}
+	f.action.AddStepSummary(result.String())
+	f.action.SetEnv("result_title", title.String())
+	f.action.SetEnv("result", result.String())
+	f.action.SetEnv("result_escaped", string(jsonString))
 }
 
 func getSumOfValues(numMap map[string]int) int {

@@ -5,17 +5,8 @@
 <!-- end title -->
 <!-- start description -->
 
-A Github Action that provides a configurable utility for detecting duplicate text in files after a commit.
+Checks all files in a given scope for duplicate text that can be harmul when deployed
 
-It comes in handy to block hard-to-find bugs with serious adverse impacts that come from duplicating certain content from one file to the next -- for example, merging the same state key for two different terraform contexts.
-
-## Running Locally
-
-You can modify the make file in the root folder and just run
-
-```
-make [command]
-```
 <!-- end description -->
 
 <!-- start usage -->
@@ -81,8 +72,11 @@ make [command]
 <!-- end inputs -->
 <!-- start outputs -->
 
-| \***\*Output\*\*** | \***\*Description\*\***                | \***\*Default\*\*** | \***\*Required\*\*** |
-| ------------------ | -------------------------------------- | ------------------- | -------------------- |
-| `result`           | The output after evaluating all checks | undefined           | undefined            |
+| \***\*Output\*\*** | \***\*Description\*\***                                       | \***\*Default\*\*** | \***\*Required\*\*** |
+| ------------------ | ------------------------------------------------------------- | ------------------- | -------------------- |
+| `has_duplicates`   | True or false depending on if the check found duplicates      | undefined           | undefined            |
+| `result_title`     | Title caption of result summary                               | undefined           | undefined            |
+| `result`           | The output after evaluating all checks                        | undefined           | undefined            |
+| `result_escaped`   | The output after evaluating all checks in escaped json format | undefined           | undefined            |
 
 <!-- end outputs -->

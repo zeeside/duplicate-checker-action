@@ -36,6 +36,8 @@ inputs:
 outputs:
   has_duplicates:
     description: "True or false depending on if the check found duplicates"
+  result_title:
+    description: "Title caption of result summary"
   result:
     description: "The output after evaluating all checks"
   result_escaped:
